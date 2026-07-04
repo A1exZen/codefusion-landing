@@ -5,3 +5,6 @@ dist
 vite.config.js
 vite.config.d.ts
 .netlify
+.vercel
+.env
+.env.local
