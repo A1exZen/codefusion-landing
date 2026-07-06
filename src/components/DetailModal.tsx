@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react';
 import type { ModalData } from '../utils/modalData';
 
 interface DetailModalProps {
@@ -16,8 +17,8 @@ export function DetailModal({ data, onClose }: DetailModalProps) {
         {data && (
           <div className="service-content">
             <h3>{data.title}</h3>
-            {data.sections.map((section) => (
-              <div className="service-block" key={section.heading}>
+            {data.sections.map((section, index) => (
+              <div className="service-block" style={{ '--i': index } as CSSProperties} key={section.heading}>
                 <h4>{section.heading}</h4>
                 {section.body}
               </div>

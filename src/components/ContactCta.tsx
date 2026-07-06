@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from 'react';
+import { useReveal } from '../hooks/useReveal';
 import { useLanguage } from '../i18n/LanguageContext';
 import { SuccessPopup } from './SuccessPopup';
 
@@ -6,6 +7,8 @@ export function ContactCta() {
   const { content } = useLanguage();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const introRef = useReveal<HTMLDivElement>();
+  const formRef = useReveal<HTMLDivElement>();
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -45,19 +48,37 @@ export function ContactCta() {
 
   return (
     <section id="contact" className="cta">
-      <div className="bg-word">CONTACT</div>
-      <div className="container">
-        <h2>{content.contact.title}</h2>
-        <p>{content.contact.subtitle}</p>
+      <div className="bg-word bg-word--light">contact</div>
+      <div className="cta-bg">
+        <span />
+        <span />
+      </div>
 
-        <form className="form" onSubmit={handleSubmit}>
-          <input type="text" name="name" placeholder={content.contact.namePlaceholder} required />
-          <input type="text" name="contact" placeholder={content.contact.contactPlaceholder} required />
-          <textarea name="message" placeholder={content.contact.messagePlaceholder} rows={4} />
-          <button type="submit" className="btn primary" disabled={isSubmitting}>
-            {isSubmitting ? content.contact.sending : content.contact.send}
-          </button>
-        </form>
+      <div className="container cta-grid">
+        <div className="cta-intro reveal-left" ref={introRef}>
+          <h2>{content.contact.title}</h2>
+          <p>{content.contact.subtitle}</p>
+
+          <ul className="cta-points">
+            {content.contact.points.map((point) => (
+              <li key={point}>
+                <span className="cta-point-icon">✓</span>
+                {point}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="cta-form-card reveal-right" ref={formRef}>
+          <form className="form" onSubmit={handleSubmit}>
+            <input type="text" name="name" placeholder={content.contact.namePlaceholder} required />
+            <input type="text" name="contact" placeholder={content.contact.contactPlaceholder} required />
+            <textarea name="message" placeholder={content.contact.messagePlaceholder} rows={4} />
+            <button type="submit" className="btn primary" disabled={isSubmitting}>
+              {isSubmitting ? content.contact.sending : content.contact.send}
+            </button>
+          </form>
+        </div>
       </div>
 
       {showSuccess && <SuccessPopup onClose={() => setShowSuccess(false)} />}

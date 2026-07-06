@@ -20,6 +20,9 @@ export const en: SiteContent = {
     discuss: 'Discuss a Project →',
     ourServices: 'Our Services',
     points: ['⚡ From idea to launch in 4–8 weeks', '🎯 Turnkey or embedded in your team', '🔧 24/7 Support'],
+    availableBadge: 'Available for new projects',
+    chipRating: 'Client rating',
+    chipLive: 'Live project shipped',
   },
   social: [
     { value: '20+', label: 'projects delivered' },
@@ -211,38 +214,57 @@ export const en: SiteContent = {
       {
         number: '01',
         title: 'Discovery',
-        description: 'UX research, user flows, competitive analysis, requirements definition',
+        description: 'UX research, technical scoping and a clear requirements and architecture plan before any estimate is locked in',
         className: 'step blue',
       },
       {
         number: '02',
-        title: 'Prototype',
-        description: 'Wireframes to a fully interactive Figma prototype, validated with stakeholders',
+        title: 'Design & Prototype',
+        description: 'Wireframes to a fully interactive Figma prototype, validated with stakeholders before a line of code is written',
         className: 'step',
       },
       {
         number: '03',
-        title: 'Design System',
-        description: 'Component library, typography and spacing tokens — consistency at scale',
+        title: 'Build & Integrate',
+        description:
+          'Sprint-based development with code review, CI/CD pipelines and continuous QA — you see working software every sprint, not just at the end',
         className: 'step dark',
       },
       {
         number: '04',
-        title: 'Handoff & Build',
-        description: 'Developer-ready specs, sprints, demos, and transparent communication through launch',
+        title: 'Launch & Support',
+        description: 'Staged rollout with monitoring from day one, a warranty period for fixes, and 24/7 support on retainer if you need it',
         className: 'step',
       },
     ],
   },
   whySection: {
     title: 'Why CodeFusion',
-    cards: [
-      { title: 'Speed', description: 'MVP in 4–6 weeks without sacrificing quality', className: 'why-card blue' },
-      { title: 'Results-Driven', description: 'We solve business problems, not just write code', className: 'why-card' },
+    subtitle: 'See the difference before you commit to a team.',
+    columns: [
       {
-        title: 'Full Cycle',
-        description: 'From idea to support and scaling — full source code ownership and an NDA signed as standard',
-        className: 'why-card dark',
+        label: 'CodeFusion',
+        highlight: true,
+        items: [
+          { text: 'Senior full-cycle team, not a single freelancer', positive: true },
+          { text: 'Fixed price and timeline, agreed upfront', positive: true },
+          { text: 'We start within days, not weeks', positive: true },
+          { text: 'Direct communication with your engineers', positive: true },
+          { text: 'Full source code and IP ownership', positive: true },
+          { text: '24/7 support after launch', positive: true },
+        ],
+      },
+      {
+        label: 'Freelancers & Agencies',
+        highlight: false,
+        items: [
+          { text: 'One person juggling multiple clients', positive: false },
+          { text: 'Unpredictable hourly billing', positive: false },
+          { text: 'Waitlisted for weeks before work starts', positive: false },
+          { text: 'Messages routed through account managers', positive: false },
+          { text: 'Vendor lock-in on code and infrastructure', positive: false },
+          { text: 'Support ends the moment the project ships', positive: false },
+        ],
       },
     ],
   },
@@ -326,6 +348,11 @@ export const en: SiteContent = {
   contact: {
     title: 'Ready to Discuss Your Project?',
     subtitle: "Leave a request — we'll get back to you within 2 hours",
+    points: [
+      'Reply within 2 hours, free scoping call included',
+      'NDA signed before any details are shared',
+      'Fixed price and timeline before you commit',
+    ],
     namePlaceholder: 'Your name',
     contactPlaceholder: 'Telegram or Email',
     messagePlaceholder: 'Tell us about your project',
@@ -340,7 +367,7 @@ export const en: SiteContent = {
     button: 'Got it',
   },
   footer: {
-    tagline: 'Turning ideas into digital products',
+    tagline: 'Full-cycle software, mobile & AI engineering studio.',
     navHeading: 'Navigation',
     contactHeading: 'Get in Touch',
     copy: '© 2026 CodeFusion. All rights reserved.',

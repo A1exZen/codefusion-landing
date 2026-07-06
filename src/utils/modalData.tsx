@@ -27,7 +27,15 @@ export function serviceToModalData(service: ServiceContent, labels: SiteContent[
       },
       {
         heading: labels.technologies,
-        body: <p className="service-accent">{service.detail.technologies}</p>,
+        body: (
+          <div className="service-tech-list">
+            {service.detail.technologies.split(',').map((tech) => (
+              <span className="service-tech-pill" key={tech.trim()}>
+                {tech.trim()}
+              </span>
+            ))}
+          </div>
+        ),
       },
       {
         heading: labels.whoItsFor,

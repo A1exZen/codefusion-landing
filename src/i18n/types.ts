@@ -46,10 +46,15 @@ export interface ProcessStepContent {
   className: string;
 }
 
-export interface WhyCardContent {
-  title: string;
-  description: string;
-  className: string;
+export interface ComparisonItem {
+  text: string;
+  positive: boolean;
+}
+
+export interface ComparisonColumn {
+  label: string;
+  highlight: boolean;
+  items: ComparisonItem[];
 }
 
 export interface SiteContent {
@@ -71,6 +76,9 @@ export interface SiteContent {
     discuss: string;
     ourServices: string;
     points: string[];
+    availableBadge: string;
+    chipRating: string;
+    chipLive: string;
   };
   social: StatContent[];
   servicesSection: {
@@ -87,7 +95,8 @@ export interface SiteContent {
   };
   whySection: {
     title: string;
-    cards: WhyCardContent[];
+    subtitle: string;
+    columns: ComparisonColumn[];
   };
   techSection: {
     title: string;
@@ -100,6 +109,7 @@ export interface SiteContent {
   contact: {
     title: string;
     subtitle: string;
+    points: string[];
     namePlaceholder: string;
     contactPlaceholder: string;
     messagePlaceholder: string;

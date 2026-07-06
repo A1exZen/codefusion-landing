@@ -1,30 +1,35 @@
 import { useEffect, useRef } from 'react';
 
-export function useReveal<T extends HTMLElement>(threshold = 0.15) {
+/**
+ * Reveals an element once it scrolls into view.
+ *
+ * `rootMargin` has a small negative bottom (-8%) on purpose: the element
+ * triggers just after it peeks in from the bottom, so the entrance animation
+ * plays on-screen — but without a long wait before it starts.
+ */
+export function useReveal<T extends HTMLElement>(
+  threshold = 0,
+  rootMargin = '0px 0px -8% 0px',
+) {
   const ref = useRef<T>(null);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
 
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(40px)';
-    el.style.transition = 'all .8s cubic-bezier(.2,.8,.2,1)';
-
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          el.style.opacity = '1';
-          el.style.transform = 'translateY(0)';
+          el.classList.add('is-revealed');
           observer.unobserve(el);
         }
       },
-      { threshold },
+      { threshold, rootMargin },
     );
 
     observer.observe(el);
     return () => observer.disconnect();
-  }, [threshold]);
+  }, [threshold, rootMargin]);
 
   return ref;
 }
