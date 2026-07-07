@@ -21,7 +21,7 @@ function ServiceCard({
   onOpenDetail: (data: ModalData) => void;
 }) {
   const revealRef = useReveal<HTMLDivElement>();
-  const cardRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement | null>(null);
 
   const setRefs = (node: HTMLDivElement | null) => {
     revealRef.current = node;

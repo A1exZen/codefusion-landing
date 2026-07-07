@@ -11,7 +11,7 @@ export function useReveal<T extends HTMLElement>(
   threshold = 0,
   rootMargin = '0px 0px -8% 0px',
 ) {
-  const ref = useRef<T>(null);
+  const ref = useRef<T | null>(null);
 
   useEffect(() => {
     const el = ref.current;
