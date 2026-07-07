@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react';
 import { useReveal } from '../hooks/useReveal';
+import { useScrollParallax } from '../hooks/useScrollParallax';
 import { useLanguage } from '../i18n/LanguageContext';
 import type { TechGroupContent } from '../i18n/types';
 
@@ -23,10 +24,13 @@ function TechGroup({ group, index }: { group: TechGroupContent; index: number })
 export function TechStack() {
   const { content } = useLanguage();
   const titleRef = useReveal<HTMLHeadingElement>();
+  const bgWordRef = useScrollParallax<HTMLDivElement>(0.12, 80);
 
   return (
     <section className="tech">
-      <div className="bg-word">innovation</div>
+      <div className="bg-word" ref={bgWordRef}>
+        innovation
+      </div>
       <div className="container">
         <h2 className="section-title reveal-rise" ref={titleRef}>
           {content.techSection.title}

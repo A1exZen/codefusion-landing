@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import { useReveal } from '../hooks/useReveal';
+import { useScrollParallax } from '../hooks/useScrollParallax';
 import { useLanguage } from '../i18n/LanguageContext';
 import { SuccessPopup } from './SuccessPopup';
 
@@ -9,6 +10,7 @@ export function ContactCta() {
   const [showSuccess, setShowSuccess] = useState(false);
   const introRef = useReveal<HTMLDivElement>();
   const formRef = useReveal<HTMLDivElement>();
+  const bgWordRef = useScrollParallax<HTMLDivElement>(0.12, 80);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -48,7 +50,9 @@ export function ContactCta() {
 
   return (
     <section id="contact" className="cta">
-      <div className="bg-word bg-word--light">contact</div>
+      <div className="bg-word bg-word--light" ref={bgWordRef}>
+        contact
+      </div>
       <div className="cta-bg">
         <span />
         <span />

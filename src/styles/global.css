@@ -1,8 +1,102 @@
+/* self-hosted so the pixel headline font never depends on an external CDN
+   (Google Fonts can be blocked by ad-blockers/privacy extensions or a flaky
+   network, silently falling back to a system sans) */
+@font-face {
+	font-family: "Press Start 2P";
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src: url("/fonts/pressstart2p-latin.woff2") format("woff2");
+	unicode-range:
+		U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+		U+2000-206F, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+	font-family: "Press Start 2P";
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src: url("/fonts/pressstart2p-latin-ext.woff2") format("woff2");
+	unicode-range:
+		U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+		U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113,
+		U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+	font-family: "Press Start 2P";
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src: url("/fonts/pressstart2p-cyrillic.woff2") format("woff2");
+	unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+	font-family: "Press Start 2P";
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src: url("/fonts/pressstart2p-cyrillic-ext.woff2") format("woff2");
+	unicode-range:
+		U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+
+@font-face {
+	font-family: "Onest";
+	font-style: normal;
+	font-weight: 300 800;
+	font-display: swap;
+	src: url("/fonts/onest-latin.woff2") format("woff2");
+	unicode-range:
+		U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+		U+2000-206F, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+	font-family: "Onest";
+	font-style: normal;
+	font-weight: 300 800;
+	font-display: swap;
+	src: url("/fonts/onest-latin-ext.woff2") format("woff2");
+	unicode-range:
+		U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+		U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0,
+		U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+	font-family: "Onest";
+	font-style: normal;
+	font-weight: 300 800;
+	font-display: swap;
+	src: url("/fonts/onest-cyrillic.woff2") format("woff2");
+	unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+	font-family: "Onest";
+	font-style: normal;
+	font-weight: 300 800;
+	font-display: swap;
+	src: url("/fonts/onest-cyrillic-ext.woff2") format("woff2");
+	unicode-range:
+		U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+
 :root {
 	--blue: #003049;
 	--blue-rgb: 0, 48, 73;
 	--blue-light: #4a7c96;
 	--blue-soft: #eaf1f4;
+
+	/* accent used to highlight the animated headline and interactive bits —
+	   same blue family as the buttons/logo, not a separate brand color */
+	--accent: var(--blue);
+	--accent-rgb: 0, 48, 73;
+	--accent-light: var(--blue-light);
+	--accent-deep: #001d2c;
+	--accent-gradient: linear-gradient(
+		135deg,
+		var(--blue-light),
+		var(--blue) 65%,
+		var(--accent-deep)
+	);
 
 	--dark: #0f172a;
 	--dark-soft: #1e293b;
@@ -432,10 +526,12 @@ body {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	padding: calc(96px + clamp(28px, 5vw, 56px)) 0 clamp(48px, 8vw, 80px);
+	padding: calc(96px + clamp(28px, 5vw, 56px)) 0 clamp(56px, 8vw, 88px);
 	overflow: hidden;
 	--mx: 50%;
-	--my: 40%;
+	--my: 42%;
+	--px: 0;
+	--py: 0;
 }
 
 .hero > .container {
@@ -450,35 +546,57 @@ body {
 	z-index: 0;
 }
 
-.hero-bg span {
+.hero-orb {
 	position: absolute;
-	width: min(420px, 80vw);
-	height: min(420px, 80vw);
-	background: radial-gradient(
-		circle,
-		rgba(var(--blue-rgb), 0.45),
-		transparent 70%
-	);
-	filter: blur(120px);
-	opacity: 0.35;
-	pointer-events: none;
+	border-radius: 50%;
+	filter: blur(110px);
+	will-change: transform, translate;
+	transition: translate 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.hero-bg span:nth-child(1) {
-	top: -25%;
-	left: -25%;
-	animation: hero-orb-a 16s ease-in-out infinite;
+.hero-orb--1 {
+	width: min(460px, 82vw);
+	height: min(460px, 82vw);
+	top: -22%;
+	left: -18%;
+	background: radial-gradient(
+		circle,
+		rgba(var(--blue-rgb), 0.5),
+		transparent 70%
+	);
+	opacity: 0.4;
+	animation: hero-orb-a 18s ease-in-out infinite;
+	translate: calc(var(--px) * 46px) calc(var(--py) * 46px);
 }
-.hero-bg span:nth-child(2) {
-	bottom: -30%;
-	right: -25%;
-	animation: hero-orb-b 20s ease-in-out infinite;
+
+.hero-orb--2 {
+	width: min(420px, 78vw);
+	height: min(420px, 78vw);
+	bottom: -28%;
+	right: -16%;
+	background: radial-gradient(
+		circle,
+		rgba(var(--accent-rgb), 0.42),
+		transparent 70%
+	);
+	opacity: 0.34;
+	animation: hero-orb-b 22s ease-in-out infinite;
+	translate: calc(var(--px) * -60px) calc(var(--py) * -40px);
 }
-.hero-bg span:nth-child(3) {
-	top: 25%;
-	right: 10%;
-	opacity: 0.28;
-	animation: hero-orb-a 24s ease-in-out infinite reverse;
+
+.hero-orb--3 {
+	width: min(360px, 70vw);
+	height: min(360px, 70vw);
+	top: 24%;
+	right: 20%;
+	background: radial-gradient(
+		circle,
+		rgba(56, 189, 248, 0.34),
+		transparent 70%
+	);
+	opacity: 0.3;
+	animation: hero-orb-a 26s ease-in-out infinite reverse;
+	translate: calc(var(--px) * 30px) calc(var(--py) * 30px);
 }
 
 @keyframes hero-orb-a {
@@ -527,16 +645,36 @@ body {
 	position: absolute;
 	inset: 0;
 	background: radial-gradient(
-		420px circle at var(--mx) var(--my),
-		rgba(var(--blue-rgb), 0.12),
-		transparent 65%
+		480px circle at var(--mx) var(--my),
+		rgba(var(--accent-rgb), 0.1),
+		transparent 62%
 	);
-	transition: background 0.2s ease-out;
+	transition: background 0.25s ease-out;
+}
+
+/* choreographed entrance for the hero column */
+.hero-anim {
+	opacity: 0;
+	transform: translateY(26px);
+	animation: hero-enter 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+	animation-delay: var(--d, 0s);
+}
+
+@keyframes hero-enter {
+	to {
+		opacity: 1;
+		transform: none;
+	}
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.hero-bg span {
+	.hero-orb {
 		animation: none;
+	}
+	.hero-anim {
+		animation: none;
+		opacity: 1;
+		transform: none;
 	}
 }
 
@@ -588,21 +726,62 @@ body {
 	}
 }
 
-.hero-content h1 {
-	font-family: "Press Start 2P", system-ui !important;
-	font-weight: 600;
-	font-size: 30px;
-	line-height: 1.5;
-	margin-bottom: 20px;
+.hero-title {
+	font-family: "Press Start 2P", monospace !important;
+	font-weight: 400;
+	font-size: clamp(26px, 4vw, 34px);
+	line-height: 1.34;
+	margin: 0 0 22px;
 	color: #1d2531;
-	min-height: 192px;
-	overflow: hidden;
+	letter-spacing: 0.01em;
+	display: flex;
+	flex-direction: column;
+	gap: 0.28em;
 }
 
-.typing {
-	font-family: "Press Start 2P", system-ui !important;
+.hero-title-line {
+	display: block;
+	font-family: "Press Start 2P", monospace !important;
+}
+
+/* the animated word gets the accent gradient + a blinking caret */
+.hero-title-typed {
+	font-family: "Press Start 2P", monospace !important;
+	display: flex;
+	align-items: center;
+	min-height: 1.3em;
+}
+
+.hero-typed-word {
+	font-family: inherit;
 	text-transform: uppercase;
-	min-width: 150px;
+	background: var(--accent-gradient);
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+	color: transparent;
+}
+
+.hero-caret {
+	display: inline-block;
+	width: 0.12em;
+	height: 0.92em;
+	margin-left: 0.14em;
+	border-radius: 2px;
+	background: var(--accent);
+	box-shadow: 0 0 14px rgba(var(--accent-rgb), 0.7);
+	animation: hero-caret-blink 1.05s steps(1) infinite;
+}
+
+@keyframes hero-caret-blink {
+	0%,
+	48% {
+		opacity: 1;
+	}
+	48.01%,
+	100% {
+		opacity: 0;
+	}
 }
 
 .hero-subtitle {
@@ -620,22 +799,50 @@ body {
 }
 
 .btn {
+	position: relative;
+	overflow: hidden;
 	padding: 16px 32px;
 	border-radius: 999px;
 	font-weight: 600;
 	text-decoration: none;
-	transition: all 0.3s ease;
+	transition:
+		transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+		box-shadow 0.3s ease,
+		background 0.3s ease,
+		color 0.3s ease,
+		border-color 0.3s ease;
 	display: inline-block;
 }
 
 .btn.primary {
-	background: var(--blue);
+	background: linear-gradient(135deg, #0a4a6b, var(--blue));
 	color: #fff;
+	box-shadow: 0 12px 28px rgba(var(--blue-rgb), 0.28);
+}
+
+/* light sweep across the primary button on hover */
+.btn.primary::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(
+		120deg,
+		transparent 25%,
+		rgba(255, 255, 255, 0.35),
+		transparent 75%
+	);
+	transform: translateX(-120%);
+	transition: transform 0.6s ease;
+	pointer-events: none;
 }
 
 .btn.primary:hover {
 	transform: translateY(-3px);
-	box-shadow: 0 20px 40px rgba(var(--blue-rgb), 0.35);
+	box-shadow: 0 22px 44px rgba(var(--accent-rgb), 0.32);
+}
+
+.btn.primary:hover::before {
+	transform: translateX(120%);
 }
 
 .btn.ghost {
@@ -669,7 +876,27 @@ body {
 	min-height: 350px;
 	display: flex;
 	justify-content: center;
+	/* scroll parallax fed by useScrollParallax */
+	translate: 0 var(--parallax-y, 0px);
+}
+
+.hero-visual-inner {
+	position: relative;
+	width: 100%;
+	display: flex;
+	justify-content: center;
 	perspective: 1200px;
+	animation: hero-float 7s ease-in-out infinite;
+}
+
+@keyframes hero-float {
+	0%,
+	100% {
+		transform: translateY(0);
+	}
+	50% {
+		transform: translateY(-14px);
+	}
 }
 
 .hero-device {
@@ -686,25 +913,28 @@ body {
 
 .hero-glow {
 	position: absolute;
-	inset: 8% 18%;
+	inset: 6% 14%;
 	z-index: -1;
 	background: radial-gradient(
 		circle,
-		rgba(var(--blue-rgb), 0.4),
-		transparent 70%
+		rgba(var(--accent-rgb), 0.4),
+		rgba(var(--blue-rgb), 0.28) 45%,
+		transparent 72%
 	);
-	filter: blur(60px);
+	filter: blur(64px);
 	animation: hero-glow-pulse 5s ease-in-out infinite;
+	/* drifts opposite the cursor for depth */
+	translate: calc(var(--px) * 24px) calc(var(--py) * 24px);
 }
 
 @keyframes hero-glow-pulse {
 	0%,
 	100% {
-		opacity: 0.5;
+		opacity: 0.55;
 		transform: scale(1);
 	}
 	50% {
-		opacity: 0.9;
+		opacity: 0.95;
 		transform: scale(1.12);
 	}
 }
@@ -714,19 +944,22 @@ body {
 	display: flex;
 	align-items: center;
 	gap: 6px;
-	padding: 10px 14px;
-	border-radius: 14px;
-	background: rgba(255, 255, 255, 0.75);
+	padding: 11px 15px;
+	border-radius: 16px;
+	background: rgba(255, 255, 255, 0.78);
 	border: 1px solid rgba(15, 23, 42, 0.08);
 	backdrop-filter: blur(14px);
 	-webkit-backdrop-filter: blur(14px);
-	box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12);
+	box-shadow: 0 14px 34px rgba(15, 23, 42, 0.14);
 	font-size: 13px;
 	font-weight: 700;
 	color: var(--text-main);
 	white-space: nowrap;
 	pointer-events: none;
+	z-index: 2;
 	animation: hero-chip-float 4s ease-in-out infinite;
+	/* independent translate layer so cursor depth composes with the float */
+	transition: translate 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .hero-chip em {
@@ -736,15 +969,17 @@ body {
 }
 
 .hero-chip--rating {
-	top: 8%;
-	left: 2%;
+	top: 6%;
+	left: 0%;
 	animation-delay: 0s;
+	translate: calc(var(--px) * -34px) calc(var(--py) * -26px);
 }
 
 .hero-chip--live {
 	bottom: 12%;
-	right: 2%;
+	right: 0%;
 	animation-delay: 1.6s;
+	translate: calc(var(--px) * 34px) calc(var(--py) * 26px);
 }
 
 @keyframes hero-chip-float {
@@ -757,8 +992,56 @@ body {
 	}
 }
 
+/* animated scroll cue at the bottom of the hero */
+.hero-scroll {
+	position: absolute;
+	left: 50%;
+	bottom: 26px;
+	translate: -50% 0;
+	z-index: 2;
+	display: block;
+	opacity: 0;
+	animation: hero-enter 0.9s ease 1s forwards;
+}
+
+.hero-scroll-track {
+	display: block;
+	width: 26px;
+	height: 42px;
+	border-radius: 999px;
+	border: 2px solid rgba(15, 23, 42, 0.22);
+	position: relative;
+}
+
+.hero-scroll-thumb {
+	position: absolute;
+	left: 50%;
+	top: 8px;
+	width: 4px;
+	height: 8px;
+	margin-left: -2px;
+	border-radius: 999px;
+	background: var(--accent);
+	animation: hero-scroll-bob 1.6s ease-in-out infinite;
+}
+
+@keyframes hero-scroll-bob {
+	0%,
+	100% {
+		transform: translateY(0);
+		opacity: 0.4;
+	}
+	50% {
+		transform: translateY(12px);
+		opacity: 1;
+	}
+}
+
 @media (max-width: 640px) {
 	.hero-chip {
+		display: none;
+	}
+	.hero-scroll {
 		display: none;
 	}
 }
@@ -769,7 +1052,9 @@ body {
 	}
 	.available-dot,
 	.hero-chip,
-	.hero-glow {
+	.hero-glow,
+	.hero-visual-inner,
+	.hero-scroll-thumb {
 		animation: none;
 	}
 	.service-block,
@@ -1865,10 +2150,6 @@ section > .container {
 	.footer-brand {
 		grid-column: 1 / -1;
 	}
-	.hero-content h1 {
-		min-height: 152px;
-		font-size: 34px;
-	}
 }
 
 @media (min-width: 1024px) {
@@ -2017,6 +2298,8 @@ textarea,
 	left: 0;
 	top: 50%;
 	transform: translateY(-50%);
+	/* scroll parallax drift (composes with the centering transform above) */
+	translate: 0 var(--parallax-y, 0px);
 	font-family: "Press Start 2P", system-ui;
 	font-size: clamp(140px, 14vw, 420px);
 	font-weight: 400;
