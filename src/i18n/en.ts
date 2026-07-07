@@ -2,7 +2,7 @@ import type { SiteContent } from './types';
 
 export const en: SiteContent = {
   meta: {
-    title: 'CodeFusion — Full-Cycle Software, Mobile & AI Development Studio',
+    title: 'CodeFusion',
     description:
       'CodeFusion is a full-cycle software agency serving clients across Europe, North America and the CIS: web, mobile, AI/LLM engineering and design, from prototype to production.',
   },

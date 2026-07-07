@@ -2,7 +2,7 @@ import type { SiteContent } from './types';
 
 export const ru: SiteContent = {
   meta: {
-    title: 'CodeFusion — студия разработки ПО, мобильных приложений и AI',
+    title: 'CodeFusion',
     description:
       'CodeFusion — студия полного цикла для клиентов из Европы, Северной Америки и СНГ: веб, мобильная разработка, AI/LLM-инженерия и дизайн от прототипа до продакшена.',
   },
